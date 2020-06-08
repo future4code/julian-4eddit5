@@ -1,11 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 import { Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
-import Feed from '../components/Feed';
-import Login from '../components/Login';
-import SignUp from '../components/SignUp';
-import Post from '../components/Post';
+import Feed from './components/Feed';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import Post from './components/Post';
 
 function App() {
   const token = localStorage.getItem("token");
