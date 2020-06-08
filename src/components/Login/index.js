@@ -1,10 +1,13 @@
 import React from 'react';
+import {TelaToda, DivInterna} from '../common/styled'
 
 const Login = () => {
   return (
-    <div>
-      
-    </div>
+    <TelaToda>
+      <DivInterna>
+        
+      </DivInterna>
+    </TelaToda>
   );
 }
 

@@ -35,7 +35,12 @@ function App() {
           }
         </Route>
         <Route exact path="/post/:id">
-          <Post />
+          {token &&
+            <Post />
+          }
+          {!token && 
+            <Redirect to='/login' />
+          }
         </Route>
       </Switch>
     </BrowserRouter>
