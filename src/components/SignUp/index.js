@@ -1,4 +1,5 @@
 import React from 'react';
+
 import styled from 'styled-components'
 import {TelaToda} from '../common/styled'
 
@@ -11,13 +12,27 @@ const DivInterna = styled.div`
   background-color: #fff;
 `
 
+
 const SignUp = () => {
+
+
+
+  const [nome, onChangeNome] = useInputValue();
+  const [email, onChangeEmail] = useInputValue();
+  const [senha, onChangeSenha] = useInputValue();
+
+  const onClickEnviar = () => {
+     console.log('funciona')
+  }
+
   return (
+
     <TelaToda>
       <DivInterna>
         
       </DivInterna>
     </TelaToda>
+
   );
 }
 
