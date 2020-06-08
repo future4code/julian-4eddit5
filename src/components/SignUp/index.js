@@ -1,6 +1,17 @@
 import React from 'react';
-import {useHistory} from 'react-router-dom'
-import {useInputValue} from './useInputValue.js'
+
+import styled from 'styled-components'
+import {TelaToda} from '../common/styled'
+
+const DivInterna = styled.div`
+  width: 400px;
+  box-sizing: border-box;
+  height: 600px;
+  margin: 5px;
+  border: 1px solid black;
+  background-color: #fff;
+`
+
 
 const SignUp = () => {
 
@@ -15,45 +26,13 @@ const SignUp = () => {
   }
 
   return (
-    <div>
-       <div>
-         <h1>Cadastro</h1>
-         <input
-          type='text'
-          placeholder='Nome de usuário'
-          onChange={onChangeNome}
-          value={nome}
-          name="nome"
-          pattern= "[A-Za-z ]{3,}"
-          required
-         />
 
-        <input
-          type='email'
-          placeholder='Seu E-mail'
-          onChange={onChangeEmail}
-          value={email}
-          name="email"
-          required
-         />
+    <TelaToda>
+      <DivInterna>
+        
+      </DivInterna>
+    </TelaToda>
 
-        <input
-          placeholder="Senha"
-          type="password"
-          onChange={onChangeSenha}
-          value={senha}
-          name='senha'
-          pattern={[
-            '^.{8,}$', 
-            '(?=.*\\d)', 
-            '(?=.*[A-Z])', 
-          ]}
-          required
-        />
-
-        <button onClick={onClickEnviar}>Cadastrar</button>
-       </div>
-    </div>
   );
 }
 
