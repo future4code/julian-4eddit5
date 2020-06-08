@@ -1,25 +1,46 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Switch, Route, BrowserRouter, Redirect} from "react-router-dom";
+import Feed from '../components/Feed';
+import Login from '../components/Login';
+import SignUp from '../components/SignUp';
+import Post from '../components/Post';
 
 function App() {
+  const token = localStorage.getItem("token");
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          {token && 
+            <Feed />
+          }
+          {!token && 
+            <Redirect to='/login' />
+          }
+        </Route>
+        <Route exact path="/login">
+          {!token &&
+            <Login />
+          }
+          {token && 
+            <Redirect to='/' />
+          }
+        </Route>
+        <Route exact path="/signup">
+          {!token &&
+            <SignUp />
+          }
+          {token &&
+            <Redirect to='/' />
+          }
+        </Route>
+        <Route exact path="/post/:id">
+          <Post />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
