@@ -11,12 +11,3 @@ export const TelaToda = styled.div`
   justify-content: center;
   align-items: center;
 `
-
-export const DivInterna = styled.div`
-  width: 400px;
-  box-sizing: border-box;
-  height: 600px;
-  margin-top: 5px;
-  border: 1px solid black;
-  background-color: #fff;
-`

@@ -6,41 +6,20 @@ import SignUp from './components/SignUp';
 import Post from './components/Post';
 
 function App() {
-  const token = localStorage.getItem("token");
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path="/">
-          {token && 
-            <Feed />
-          }
-          {!token && 
-            <Redirect to='/login' />
-          }
+          <Feed />
         </Route>
         <Route exact path="/login">
-          {!token &&
             <Login />
-          }
-          {token && 
-            <Redirect to='/' />
-          }
         </Route>
         <Route exact path="/signup">
-          {!token &&
             <SignUp />
-          }
-          {token &&
-            <Redirect to='/' />
-          }
         </Route>
         <Route exact path="/post/:id">
-          {token &&
             <Post />
-          }
-          {!token && 
-            <Redirect to='/login' />
-          }
         </Route>
       </Switch>
     </BrowserRouter>
