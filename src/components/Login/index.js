@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import styled from 'styled-components'
 import axios from 'axios'
+import {useHistory} from 'react-router-dom';
 import {TelaToda} from '../common/styled'
 import logo from '../../img/logo.png'
 import {useForm} from '../hooks/useForm'
-import {useHistory} from 'react-router-dom';
 
 const DivInterna = styled.div`
   width: 400px;
@@ -76,7 +76,7 @@ const Login = () => {
   return (
     <TelaToda>
       <DivInterna>
-        <ImagemLogo src = {logo} />
+        <ImagemLogo src = {logo} alt="labeddit" />
         <Formulario onSubmit={fazerLogin}>
           {erro && <MensagemErro>{erro}</MensagemErro>}
           <label for="email">E-mail</label>
