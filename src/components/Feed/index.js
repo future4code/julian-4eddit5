@@ -11,7 +11,6 @@ import {DivInterna,
        ContainerComentarios
       } from './style';
 
-
 const Feed = () => {
    const[inputPost, setInputPost] = useState('');
    const[listaPost, setListaPost] = useState([
@@ -40,7 +39,6 @@ const Feed = () => {
    useEffect(() => {
     pegarListaPost()
    }, [])
-
 
   return (
     <TelaToda>
