@@ -1,66 +1,72 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components'
-import {useHistory} from 'react-router-dom';
-import {TelaToda} from '../common/styled'
-import logo from '../../img/logo.png'
-
-const DivInterna = styled.div`
-  width: 400px;
-  box-sizing: border-box;
-  height: 600px;
-  margin: 5px;
-  border: 1px solid black;
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-`
-
-const ImagemLogo = styled.img`
-  height: 50px;
-  margin: 16px;
-  box-sizing: border-box;
-`
-
-const DivPostar=styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-`
-
-const PostTextInput = styled.textarea`
-  resize: none;
-  box-sizing: border-box;
-  width: 100%;
-  height: 80px;
-  ::placeholder{
-    text-align: center;
-    line-height: 70px;
-  }
-`
-
-const Botao = styled.button`
-  width: 100%;
-`
+import {TelaToda} from '../common/styled';
+import {FaArrowUp, FaArrowDown} from 'react-icons/fa';
+import axios from 'axios';
+import {DivInterna,
+       ContainerCriarPost,
+       ContainerBotao,
+       ContainerTextoUsuario,
+       NomeUsuario,
+       ContainerComentarios
+      } from './style';
 
 const Feed = () => {
-  document.title="labeddit"
+   const[inputPost, setInputPost] = useState('');
+   const[listaPost, setListaPost] = useState([
+    {
+      userVoteDirection: 0,
+      id: "QUEEf0KWjsVmS6w7xD7Y",
+      text: "Just a perfect day, feed animals in the zoo, then later, a movie, too, and then home",
+      title: "Lou Reed!",
+      commentsCount: 0,
+      username: "fe",
+      votesCount: 0,
+      createdAt: 1591723787295
+  }
+   ])
 
-  const token = localStorage.getItem("token");
-  const history = useHistory();
+   const onChangeInputPost = event => {
+     setInputPost(event.target.value);
+   };
 
-  if(token===null)
-    history.push('/login')
+   const pegarListaPost = () => {
+    axios.get('https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts').then(
+      (response) => {
+         console.log(response.data)
+      })
+   }
+   useEffect(() => {
+    pegarListaPost()
+   }, [])
 
   return (
     <TelaToda>
       <DivInterna>
-        <ImagemLogo src={logo} alt="labeddit" />
-        <DivPostar>
-          <PostTextInput placeholder="Escreva seu post" />
-          <Botao>Postar</Botao>
-        </DivPostar>
+        <ContainerCriarPost>
+          <input
+          type="text"
+          placeholder="Escreva seu post"
+          value={inputPost}
+          onChange={onChangeInputPost}
+          />
+        </ContainerCriarPost>
+
+        <ContainerBotao>
+        <button >Postar</button>
+        </ContainerBotao>
+
+       <ContainerTextoUsuario>
+         <NomeUsuario>Nome do usuário</NomeUsuario>
+         <p>Texto</p>
+       </ContainerTextoUsuario>  
+       
+       <ContainerComentarios>
+         <FaArrowUp/>
+         <p>0</p>
+         <FaArrowDown/>
+         <p> 0 comentários</p>
+       </ContainerComentarios>
       </DivInterna>
     </TelaToda>
   );
