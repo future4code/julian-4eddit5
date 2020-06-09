@@ -1,35 +1,77 @@
 import React from 'react';
+import {useForm} from './useForm.js';
+import styled from 'styled-components';
+import {TelaToda} from '../common/styled';
+import {DivInterna, FormContainer, Titulo, CampoPreenchimento,Botao,  } from './style';
+import axios from 'axios';
 
-import styled from 'styled-components'
-import {TelaToda} from '../common/styled'
-
-const DivInterna = styled.div`
-  width: 400px;
-  box-sizing: border-box;
-  height: 600px;
-  margin: 5px;
-  border: 1px solid black;
-  background-color: #fff;
-`
 
 
 const SignUp = () => {
+  const {form, changeValue} = useForm(
+    { 
+      nome:"", 
+      email:"",
+      senha:""
+    });
+  
+  const onChangeInput = (event) => {
+    const{name, value} = event.target;
+    changeValue(name, value);
+  };
 
+  const onClickEnviar = async () => {
+     const body = {
+       username: form.name,
+       email: form.email,
+       password: form.senha
+     }
+     const response = await axios.post (`https://us-central1-labenu-apis.cloudfunctions.net/labEddit/signup`, body)
 
-
-  const [nome, onChangeNome] = useInputValue();
-  const [email, onChangeEmail] = useInputValue();
-  const [senha, onChangeSenha] = useInputValue();
-
-  const onClickEnviar = () => {
-     console.log('funciona')
-  }
+     console.log(response)
+  };
 
   return (
 
     <TelaToda>
       <DivInterna>
-        
+        <FormContainer>
+      <Titulo>Cadastro</Titulo>
+         <CampoPreenchimento
+          type='text'
+          placeholder='Nome de usuário'
+          onChange={onChangeInput}
+          value={form.name}
+          name="name"
+          pattern= "[A-Za-z ]{3,}"
+          required
+         />
+
+        <CampoPreenchimento
+          type='email'
+          placeholder='Seu E-mail'
+          onChange={onChangeInput}
+          value={form.email}
+          name="email"
+          required
+         />
+
+        <CampoPreenchimento
+          placeholder="Senha"
+          type="password"
+          onChange={onChangeInput}
+          value={form.senha}
+          name='senha'
+          pattern={[
+            '^.{8,}$', 
+            '(?=.*\\d)', 
+            '(?=.*[A-Z])', 
+          ]}
+          required
+        />
+
+        <Botao onClick={onClickEnviar}>Cadastrar</Botao>
+        </FormContainer>
       </DivInterna>
     </TelaToda>
 

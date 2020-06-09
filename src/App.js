@@ -9,7 +9,7 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/feed">
           <Feed />
         </Route>
         <Route exact path="/login">
