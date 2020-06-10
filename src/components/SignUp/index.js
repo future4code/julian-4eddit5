@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import {TelaToda} from '../common/styled';
 import {DivInterna, FormContainer, Titulo, CampoPreenchimento,Botao,  } from './style';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -19,6 +20,12 @@ const SignUp = () => {
     const{name, value} = event.target;
     changeValue(name, value);
   };
+  
+  const history = useHistory();
+  
+  const fazerCadastro = (event) => {
+    event.preventDefault();
+  }
 
   const onClickEnviar = async () => {
      const body = {
@@ -35,7 +42,7 @@ const SignUp = () => {
 
     <TelaToda>
       <DivInterna>
-        <FormContainer>
+        <FormContainer onSubmit={fazerCadastro}>
       <Titulo>Cadastro</Titulo>
          <CampoPreenchimento
           type='text'
@@ -62,11 +69,6 @@ const SignUp = () => {
           onChange={onChangeInput}
           value={form.senha}
           name='senha'
-          pattern={[
-            '^.{8,}$', 
-            '(?=.*\\d)', 
-            '(?=.*[A-Z])', 
-          ]}
           required
         />
 
