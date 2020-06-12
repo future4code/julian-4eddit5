@@ -83,17 +83,15 @@ export const TituloPost = styled.div`
    padding: 5px;
    font-size: 14px;
    font-weight: 600;
-
 `
 export const TextoPost = styled.div`
    font-size: 14px;
-   margin-top: 10px;
+   margin: 10px 0;
    padding-left: 10px;
    display:flex;
    justify-content:center;
    height:50%;
    box-sizing: border-box;
-   margin-bottom:45px;
 `
 
 export const ContainerComentarios = styled.div`
