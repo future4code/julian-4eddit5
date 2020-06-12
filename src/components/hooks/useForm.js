@@ -6,6 +6,10 @@ export const useForm = (initialValues) => {
     const changeValue = (name, value) => {
       setForm({ ...form, [name]: value });
     };
+
+    const clearForm = () =>{
+      setForm(initialValues);
+    }
   
-    return {form, changeValue};
+    return {form, changeValue, clearForm};
 };
