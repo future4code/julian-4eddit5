@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components'
-import {useHistory} from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import {TelaToda} from '../common/styled'
 import logo from '../../img/logo.png'
 import {GrLogout} from 'react-icons/gr';
 import {AiOutlineHome} from 'react-icons/ai'
+import axios from 'axios';
+import { useForm } from '../hooks/useForm';
 
 const DivInterna = styled.div`
   width: 400px;
@@ -71,6 +73,33 @@ const Post = () => {
 
   const token = localStorage.getItem("token");
   const history = useHistory();
+  const pathParams = useParams();
+  const {form, changeValue} = useForm({comentario: ''})
+
+  const onChangeInput = (event) => {
+    const {name, value} = event.target;
+    changeValue(name, value);
+  }
+
+  const comentar = () => {
+    const body = {
+      text: form.comentario
+    }
+
+    axios
+      .post(`https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts/${pathParams.id}/comment`,
+        body, {
+        headers:{
+          Authorization: token
+        }
+      }) 
+      .then(response=>{
+        console.log(response.data)
+      })
+      .catch(error=>{
+        console.log(error.response)
+      })
+  }
 
   if(token===null)
     history.push('/login')
@@ -84,7 +113,12 @@ const Post = () => {
           <IconeLogout onClick={()=>{history.push('/logout')}} />
         </Header>
         <DivPostar>
-          <PostTextInput placeholder="Escreva seu comentário" />
+          <PostTextInput 
+            placeholder="Escreva seu comentário" 
+            name="comentario" 
+            value={form.comentario} 
+            onChange={onChangeInput}
+          />
           <Botao>Comentar</Botao>
         </DivPostar>
       </DivInterna>
