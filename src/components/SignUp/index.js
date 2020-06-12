@@ -26,9 +26,7 @@ const SignUp = () => {
     const{name, value} = event.target;
     changeValue(name, value);
   };
-  
-  const history = useHistory();
-  
+    
   const fazerCadastro = (event) => {
     event.preventDefault();
   }
