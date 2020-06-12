@@ -27,10 +27,6 @@ const SignUp = () => {
     changeValue(name, value);
   };
 
-  const fazerCadastro = (event) => {
-    event.preventDefault();
-  }
-
   const enviarCadastro = async (event) => {
     event.preventDefault();
 

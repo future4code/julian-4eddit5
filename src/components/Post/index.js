@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components'
 import {useHistory, useParams} from 'react-router-dom';
 import {TelaToda} from '../common/styled'
@@ -19,6 +19,14 @@ const DivInterna = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  overflow-y: auto;
+  &::-webkit-scrollbar{
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background: #8f8c8c;
+    border-radius: 8px;
+  }
 `
 
 const Header = styled.header`
@@ -37,13 +45,13 @@ const ImagemLogo = styled.img`
   cursor: pointer;
 `
 
-const DivPostar=styled.div`
+const DivComentar=styled.div`
   width: 70%;
   display: flex;
   flex-direction: column;
 `
 
-const PostTextInput = styled.textarea`
+const InputComentario = styled.textarea`
   resize: none;
   box-sizing: border-box;
   width: 100%;
@@ -73,12 +81,32 @@ const Post = () => {
 
   const token = localStorage.getItem("token");
   const history = useHistory();
+
+  if(token===null)
+    history.push('/login')
+
   const pathParams = useParams();
   const {form, changeValue} = useForm({comentario: ''})
+  const [listaComentarios, setListaComentarios] = useState([]);
 
   const onChangeInput = (event) => {
     const {name, value} = event.target;
     changeValue(name, value);
+  }
+
+  const pegarComentarios = () => {
+    axios
+      .get("https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts/:postId", {
+        headers:{
+          Authoriation: token
+        }
+      })
+      .then(response=>{
+        setListaComentarios(response.data);
+      })
+      .catch(error=>{
+        console.log(error.response);
+      })
   }
 
   const comentar = () => {
@@ -101,8 +129,10 @@ const Post = () => {
       })
   }
 
-  if(token===null)
-    history.push('/login')
+  const logout = () =>{
+    localStorage.clear();
+    history.push("/login");
+  }
 
   return (
     <TelaToda>
@@ -110,17 +140,17 @@ const Post = () => {
         <Header>
           <IconeHome onClick={()=>{history.push('/')}} />
           <ImagemLogo src={logo} alt="labeddit" onClick={()=>{history.push('/')}} />
-          <IconeLogout onClick={()=>{history.push('/logout')}} />
+          <IconeLogout onClick={logout} />
         </Header>
-        <DivPostar>
-          <PostTextInput 
+        <DivComentar>
+          <InputComentario 
             placeholder="Escreva seu comentário" 
             name="comentario" 
             value={form.comentario} 
             onChange={onChangeInput}
           />
           <Botao>Comentar</Botao>
-        </DivPostar>
+        </DivComentar>
       </DivInterna>
     </TelaToda>
   );
