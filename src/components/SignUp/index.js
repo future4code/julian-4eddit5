@@ -27,11 +27,11 @@ const SignUp = () => {
     changeValue(name, value);
   };
   
-  const history = useHistory();
+  //  const history = useHistory();
   
-  const fazerCadastro = (event) => {
-    event.preventDefault();
-  }
+  // const fazerCadastro = (event) => {
+  //   event.preventDefault();
+  // }
 
   const enviarCadastro = async (event) => {
     event.preventDefault();
