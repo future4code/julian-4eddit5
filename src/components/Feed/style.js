@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {GrLogout} from 'react-icons/gr';
 
 export const DivInterna = styled.div`
   width: 400px;
@@ -7,6 +8,10 @@ export const DivInterna = styled.div`
   margin: 5px;
   border: 1px solid black;
   background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   overflow-y: auto;
   &::-webkit-scrollbar{
     width: 5px;
@@ -16,36 +21,57 @@ export const DivInterna = styled.div`
     border-radius: 8px;
   }
 `
-export const ContainerCriarPost = styled.div`
-  border: 1px solid black;
-  margin-top: 1rem;
-  margin-left: 5px;
+
+export const Header = styled.header`
   height: 50px;
-      
+  width: 100%;
+  margin: 16px;
+  padding: 4px 16px;
+  box-sizing: border-box;
   display: flex;
-  flex-direction:column;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
 `
 
-export const BotaoCriarPost = styled.div`
-   display: flex;
-   justify-content: center;
-   margin-left: 5px;
-   border-bottom: 1px solid black;
-   border-left: 1px solid black;
-   border-right: 1px solid black;
-   
+export const EspacoHeader = styled.div`
+  width: 24px;
 `
 
-export const ContainerPostUsuario = styled.div`
+export const ImagemLogo = styled.img`
+  height: 100%;
+  cursor: pointer;
+`
+
+export const IconeLogout = styled(GrLogout)`
+  font-size: 20px;
+  cursor: pointer;
+`
+
+export const ContainerPost=styled.div`
+  width: 70%;
   display: flex;
-  flex-direction:column;
-  justify-content: flex-start; 
-  border: solid 1px black;
-  height: 50%;
-  margin: 3rem auto;
-  margin-left: 5px;
- `
+  flex-direction: column;
+  border: 1px solid black;
+  margin: 16px;
+  :first-of-type{
+    border: none;
+  }
+`
+
+export const InputTextoPost = styled.textarea`
+  resize: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 80px;
+  ::placeholder{
+    text-align: center;
+    line-height: 70px;
+  }
+`
+
+export const BotaoCriarPost = styled.button`
+  width: 100%;
+`
 
 export const NomeUsuario = styled.div`
   font-size: 8px;
@@ -72,19 +98,20 @@ export const TextoPost = styled.div`
 
 export const ContainerComentarios = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;  
+  justify-content: space-between;  
   height: 20px;  
+  padding: 0 8px;
 `
 
-export const Comentario = styled.div`
+export const QuantidadeComentarios = styled.div`
    font-size: 10px;
 `
 
-export const Votos = styled.div`
+export const QuantidadeVotos = styled.div`
   font-size: 10px;
+  margin: 0 4px;
 `
 
-
-
-
+export const ContainerVotos = styled.div`
+  display: flex;
+`
