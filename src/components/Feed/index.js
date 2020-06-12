@@ -3,45 +3,68 @@ import styled from 'styled-components'
 import {TelaToda} from '../common/styled';
 import {FaArrowUp, FaArrowDown} from 'react-icons/fa';
 import axios from 'axios';
-import {useHistory} from 'react-router-dom';
+import {useHistory } from 'react-router-dom';
 import {DivInterna,
        ContainerCriarPost,
-       ContainerBotao,
-       ContainerTextoUsuario,
+       BotaoCriarPost,
+       ContainerPostUsuario,
        NomeUsuario,
-       ContainerComentarios
+       ContainerComentarios,
+       TextoPost,
+       Comentario,
+       Votos,
+       TituloPost
       } from './style';
 
 
 const Feed = () => {
+  const history = useHistory();
+   const[inputTitle, setInputTitle] = useState('');
    const[inputPost, setInputPost] = useState('');
-   const[contador, setContador] = useState(0)
-   const[listaPost, setListaPost] = useState([
-    {
-      userVoteDirection: 0,
-      id: "QUEEf0KWjsVmS6w7xD7Y",
-      text: "Just a perfect day, feed animals in the zoo, then later, a movie, too, and then home",
-      title: "Lou Reed!",
-      commentsCount: 0,
-      username: "fe",
-      votesCount: 0,
-      createdAt: 1591723787295
-  }
-   ])
+   const[listaPost, setListaPost] = useState([]);
+   const[curtir, setCurtir] = useState(true);
+   const[descurtir, setDescurtir] = useState(false);
+
+  
+    const criarPost = () => {
+     const body = {
+      text: inputPost,
+      title: inputTitle
+     }
+     
+    axios.post("https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts", body, {
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    }).then(response => {
+      console.log("token", response.data);
+      history.push('/')
+    }) 
+     .catch(error => {
+       console.log(error.data)
+     })
+   };
    
-   const history = useHistory();
-
-   const somarContador = () => {
-     setContador(contador + 1);
-   };
-
-   const subtrairContador = () => {
-     setContador(contador - 1);
-   };
+   const onChangeInputTitle = event => {
+     setInputTitle(event.target.value);
+   }; 
 
    const onChangeInputPost = event => {
      setInputPost(event.target.value);
    };
+
+  //  useEffect(() => {
+  //   pegarListaPost(pathParams.postId)
+  //     .then((response) => setListaPost(response))
+  //     .then(pegarData(listaPost));
+  //  },[])
+
+  //  const pegarData = (listaPost) => {
+  //    let data = Date(listaPost.createAt);
+  //    setData(data.toString());
+  //  }
+
+
 
    useEffect(() => {
      const token = localStorage.getItem("token");
@@ -49,7 +72,7 @@ const Feed = () => {
      if(token === null){
       history.push("/login")
      }
-   }, [])
+   }, [history])
 
    const pegarListaPost = () => {
      
@@ -58,23 +81,32 @@ const Feed = () => {
         Authorization: localStorage.getItem("token")
       }
     }).then((response) => {
-         console.log(response.data)
+         setListaPost(response.data.posts)
          history.push('/')
       })
       .catch(err => {
         console.log(err);
       })
-
    }
+
    useEffect(() => {
     pegarListaPost()
    }, [])
 
+   
+   
   return (
     <TelaToda>
       <DivInterna>
-        <ContainerCriarPost>
+         <ContainerCriarPost> 
           <input
+          type="text"
+          placeholder="Título"
+          value={inputTitle}
+          onChange={onChangeInputTitle}
+          />     
+
+          <textarea
           type="text"
           placeholder="Escreva seu post"
           value={inputPost}
@@ -82,26 +114,27 @@ const Feed = () => {
           />
         </ContainerCriarPost>
 
-        <ContainerBotao>
-        <button >Postar</button>
-        </ContainerBotao>
+        <BotaoCriarPost>
+        <button onClick={criarPost}>Postar</button>
+        </BotaoCriarPost> 
 
       
          {listaPost.map((lista) => {
-           return  <ContainerTextoUsuario>
-               <NomeUsuario>{lista.username}</NomeUsuario>
-                <p>{lista.text}</p>
-       </ContainerTextoUsuario>  
+           return <ContainerPostUsuario>
+               <NomeUsuario>Postado por {lista.username}</NomeUsuario>
+                <TituloPost>{lista.title}</TituloPost>
+                <TextoPost>{lista.text}</TextoPost>
+                <ContainerComentarios>
+                <FaArrowUp size="12px" />
+                <Votos>{lista.votesCount}</Votos>
+                <FaArrowDown size="12px" />
+                <Comentario> {lista.commentsCount} comentários</Comentario>
+                </ContainerComentarios> 
+       </ContainerPostUsuario>  
+       
          })}
        
-       {listaPost.map((comentarios) => {
-         return  <ContainerComentarios>
-         <FaArrowUp onClick={somarContador}/>
-        <p>{comentarios.votesCount}</p>
-         <FaArrowDown onClick={subtrairContador}/>
-         <p> {comentarios.commentsCount} comentários</p>
-       </ContainerComentarios>
-       })}
+      
       
       </DivInterna>
     </TelaToda>
